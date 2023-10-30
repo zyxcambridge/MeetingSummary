@@ -7,13 +7,16 @@ curl https://api.openai.com/v1/audio/transcriptions \
   -F model="whisper-1"
 
 
-# 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
-# echo 'export OPENAI_API_KEY="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"' >> ~/.bashrc
+# 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
+# echo 'export OPENAI_API_KEY="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"' >> ~/.bashrc
 # source ~/.bashrc
 
 
-# echo 'export OPENAI_API_KEY="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"' >> ~/.zshrc
+# echo 'export OPENAI_API_KEY="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"' >> ~/.zshrc
 # source ~/.zshrc
+
+
+    # api_token = "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"
 
 
 
@@ -58,6 +61,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
 * 要注意使用简洁明了的语言，避免使用专业术语或缩写。
 * 要注意会议纪要的完整性，确保记录了会议的所有重要内容。
 
+我们一般写纪要就是要记录明确的内容的，比如，xxx要在几号前完成什么工作，我们得出的结论是什么等等
+
 在会议结束后，应及时编写会议纪要，并尽快将会议纪要发给参会人员。
 '''
 
@@ -65,12 +70,4 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
 
 
-def split_audio(audio_path, chunk_path, length=25000000):  # 25MB
-    try:
-        audio = AudioSegment.from_mp3(audio_path)
-        audio.export(chunk_path, format="mp3", bitrate="32k")
-    except Exception as e:
-        print(f"Error in splitting audio: {e}")
-        return False
-    return True
 

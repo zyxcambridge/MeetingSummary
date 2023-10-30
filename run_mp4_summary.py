@@ -49,8 +49,6 @@ def write_to_txt(transcription, output_path):
             f.write(json.dumps(transcription, ensure_ascii=False, indent=4))
         else:
             f.write(transcription)
-  
-
 def generate_summary(api_token, transcription):
     """
     使用OpenAI GPT-3.5 API生成会议纪要。
@@ -60,17 +58,32 @@ def generate_summary(api_token, transcription):
         "Content-Type": "application/json",
         "Authorization": f"Bearer {api_token}"
     }
+    
+    # Define the prompt for the assistant
+    chinese_prompt = """
+    请根据以上内容和以下要点生成会议纪要：
+    * 会议主题：
+    * 会议时间：
+    * 会议地点：
+    * 参会人员：
+    * 会议议程：
+    * 会议内容：
+    * 会议结论：
+    * 任务与责任：
+    * 会议纪要编写人：
+    * 会议纪要审核人：
+    """
+    
     data = {
-        # "model": "gpt-4-0613",
-        "model": "gpt-3.5-turbo-16k-0613",
+        "model": "gpt-3.5-turbo-16k-0613",  # Change this to "gpt-4-32k" if you're using GPT-4
         "messages": [
             {
                 "role": "system",
-                "content": "You are a helpful assistant"
+                "content": "You are a helpful assistant specialized in generating meeting summaries."
             },
             {
                 "role": "user",
-                "content": "用英文输出会议纪要："
+                "content": "Generate a meeting summary in English based on the following transcription:"
             },
             {
                 "role": "user",
@@ -78,21 +91,27 @@ def generate_summary(api_token, transcription):
             },
             {
                 "role": "user",
-                "content": "用中文输出会议纪要：请根据以上内容和以下要点生成会议纪要：\n* 会议主题：\n* 会议时间：\n* 会议地点：\n* 参会人员：\n* 会议议程：\n* 会议内容：\n* 会议结论：\n* 要记录明确的内容的，比如，xxx要在几号前完成什么工作，我们得出的结论是什么等等 ：\n会议纪要编写人：\n* 会议纪要审核人："
+                "content": f"Generate a meeting summary in Chinese: {chinese_prompt}"
             }
         ]
     }
     
-    response = requests.post(url, headers=headers, json=data)
-    if response.status_code == 200:
-        return response.json()
-    else:
-        return f"Error: {response.status_code}, {response.json()}"
+    try:
+        response = requests.post(url, headers=headers, json=data)
+        response.raise_for_status()  # Check if the request was successful
+        
+        if 'choices' in response.json():
+            summary_text = response.json()['choices'][0]['message']['content']
+            return summary_text
+        else:
+            return "Error: Summary not generated."
+    except requests.exceptions.RequestException as e:
+        return f"API Request failed: {e}"
 
           
 def main():
     # 设置API令牌
-    api_token = "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"
+    api_token = "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"
     
     # # 视频和音频文件路径
     # video_path = "OpenPCDet-show-train-infer.mp4"
