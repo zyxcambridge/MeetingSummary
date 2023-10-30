@@ -131,19 +131,23 @@ def main():
     # write_to_txt(result, "transcription_result.txt")
 
     # Read the transcription from the text file (you would replace this with your own transcription text)
-    with open('transcription_result.txt', 'r', encoding='utf-8') as f:
-        transcription = f.read()
-
-    # Generate the summary
-    summary_response = generate_summary(api_token, transcription)
-    if 'choices' in summary_response:
-        summary_text = summary_response['choices'][0]['message']['content']
-        # Print or save the summary
-        print("Generated Summary:", summary_text)
-    else:
-        print("An error occurred:", summary_response)
+    # with open('transcription_result.txt', 'r', encoding='utf-8') as f:
+    #     transcription = f.read()
 
 
+    # # Generate the summary
+    # summary_response = generate_summary(api_token, transcription)
+    # if 'choices' in summary_response:
+    #     summary_text = summary_response['choices'][0]['message']['content']
+    #     # Print or save the summary
+    #     print("Generated Summary:", summary_text)
+    # else:
+    #     print("An error occurred:", summary_response)
+
+    #####################################################################
+    # API Key = 3446a532391d8f443bcf0b74879c6f9f
+    # Secret Key = /XOC6eKi5UtmdCRvhO94eOJ7J3Q=
+    
 
 if __name__ == "__main__":
     main()
