@@ -63,3 +63,14 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
 
 
+
+
+def split_audio(audio_path, chunk_path, length=25000000):  # 25MB
+    try:
+        audio = AudioSegment.from_mp3(audio_path)
+        audio.export(chunk_path, format="mp3", bitrate="32k")
+    except Exception as e:
+        print(f"Error in splitting audio: {e}")
+        return False
+    return True
+
